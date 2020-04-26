@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>        
+        <link rel="stylesheet" type="text/css" href="app/view/ext/bootstrap-4.0.0-dist/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="app/view/css/quiz.css"/>
+        	
+        <title>Quiz</title>
+    </head>
+    <body topmargin="0" leftmargin="0">
+    	<script type="text/javascript" src="app/view/ext/jquery-3.5.0.min.js"></script>
+    	<script type="text/javascript" src="app/view/ext/bootstrap-4.0.0-dist/js/bootstrap.min.js"></script>    	
+		<script type="text/javascript" src="app/view/ext/handlebars.min-v4.7.6.js"></script>
+		
+		<div class="right">
+		<button type="button" class="btn btn-primary" onclick="loadData()">Load Data</button>
+		</div>
+		<script id="quiz-template" type="text/x-handlebars-template"> 
+		<table id="quiz-table" class="table">
+    		<thead> 
+        		<th>id</th> 
+			    <th>name</th> 
+        		<th>url</th> 
+    		</thead> 
+			<tbody> 
+        		{{#sites}} 
+        		<tr> 
+            		<td>{{id}}</td> 
+			        <td>{{name}}</td> 
+            		<td>{{url}}</td> 
+        		</tr> 
+        		{{/sites}} 
+    		</tbody> 
+		</table> 
+		</script>
+		
+		<script>
+			var source = $("#quiz-template").html(); 
+			var template = Handlebars.compile(source);
+			var api_url = "https://aimtell.com/files/sites.json";
+	
+			$( document ).ready(function() {
+			    $('body').append(template());
+			});
+	
+			function loadData() {
+				console.log("loadData()");
+			$.getJSON(api_url, function (data) {
+			        console.log(data);
+			        $( "#quiz-table" ).remove();
+			        $('body').append(template(data));
+			    });
+			}
+		</script>
+    </body>
+</html>
